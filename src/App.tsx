@@ -1,10 +1,14 @@
+import { useSelector } from "react-redux";
 import "./App.css";
 import FooterComponent from "./components/footer-component";
 import OrderSummaryComponent from "./components/order-summary-component";
 import ProductListComponent from "./components/product-list-component";
 import StepHeaderComponent from "./components/step-header-component";
+import type { RootState } from "./store/store";
 
 function App() {
+	const isLoading = useSelector((state: RootState) => state.skips.loading);
+
 	return (
 		<div className='min-h-screen w-full min-w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white'>
 			<StepHeaderComponent />
@@ -16,7 +20,7 @@ function App() {
 					</div>
 					{/* order summary - right */}
 					<div className='lg:col-span-1'>
-						<OrderSummaryComponent />
+						{isLoading !== "pending" && <OrderSummaryComponent />}
 					</div>
 				</div>
 			</div>

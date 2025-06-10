@@ -1,189 +1,48 @@
-import { useState } from "react";
+"use client";
+import { useEffect } from "react";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/";
-import { Input } from "@/components/ui/input";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { cn } from "@/lib/utils";
 
 import { Check, Clock, Truck } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/store/store";
+import { getSkipOptions, type SkipOption } from "@/store/reducers";
+import LoadinSkeletonComponent from "./products-loadin-skeletom";
 
-interface SkipOption {
-	id: number;
-	size: number;
-	hire_period_days: number;
-	transport_cost: number | null;
-	per_tonne_cost: number | null;
-	price_before_vat: number;
-	vat: number;
-	postcode: string;
-	area: string;
-	forbidden: boolean;
-	created_at: string;
-	updated_at: string;
-	allowed_on_road: boolean;
-	allows_heavy_waste: boolean;
-	image?: string;
-}
 export default function ProductListComponent() {
-	const [selectedSkip, setSelectedSkip] = useState(8);
+	const dispatch = useDispatch<AppDispatch>();
+	const skipOptions = useSelector(
+		(state: RootState) => state.skips.skipOptions
+	);
+	const selectedSkip = useSelector(
+		(state: RootState) => state.skips.selectedSkip
+	);
 
-	const skipOptions: SkipOption[] = [
-		{
-			id: 17933,
-			size: 4,
-			hire_period_days: 14,
-			transport_cost: null,
-			per_tonne_cost: null,
-			price_before_vat: 278,
-			vat: 20,
-			postcode: "NR32",
-			area: "",
-			forbidden: false,
-			created_at: "2025-04-03T13:51:46.897146",
-			updated_at: "2025-04-07T13:16:52.813",
-			allowed_on_road: true,
-			allows_heavy_waste: true,
-		},
-		{
-			id: 17934,
-			size: 6,
-			hire_period_days: 14,
-			transport_cost: null,
-			per_tonne_cost: null,
-			price_before_vat: 305,
-			vat: 20,
-			postcode: "NR32",
-			area: "",
-			forbidden: false,
-			created_at: "2025-04-03T13:51:46.897146",
-			updated_at: "2025-04-07T13:16:52.992",
-			allowed_on_road: true,
-			allows_heavy_waste: true,
-		},
-		{
-			id: 17935,
-			size: 8,
-			hire_period_days: 14,
-			transport_cost: null,
-			per_tonne_cost: null,
-			price_before_vat: 375,
-			vat: 20,
-			postcode: "NR32",
-			area: "",
-			forbidden: false,
-			created_at: "2025-04-03T13:51:46.897146",
-			updated_at: "2025-04-07T13:16:53.171",
-			allowed_on_road: true,
-			allows_heavy_waste: true,
-		},
-		{
-			id: 17936,
-			size: 10,
-			hire_period_days: 14,
-			transport_cost: null,
-			per_tonne_cost: null,
-			price_before_vat: 400,
-			vat: 20,
-			postcode: "NR32",
-			area: "",
-			forbidden: false,
-			created_at: "2025-04-03T13:51:46.897146",
-			updated_at: "2025-04-07T13:16:53.339",
-			allowed_on_road: false,
-			allows_heavy_waste: false,
-		},
-		{
-			id: 17937,
-			size: 12,
-			hire_period_days: 14,
-			transport_cost: null,
-			per_tonne_cost: null,
-			price_before_vat: 439,
-			vat: 20,
-			postcode: "NR32",
-			area: "",
-			forbidden: false,
-			created_at: "2025-04-03T13:51:46.897146",
-			updated_at: "2025-04-07T13:16:53.516",
-			allowed_on_road: false,
-			allows_heavy_waste: false,
-		},
-		{
-			id: 17938,
-			size: 14,
-			hire_period_days: 14,
-			transport_cost: null,
-			per_tonne_cost: null,
-			price_before_vat: 470,
-			vat: 20,
-			postcode: "NR32",
-			area: "",
-			forbidden: false,
-			created_at: "2025-04-03T13:51:46.897146",
-			updated_at: "2025-04-07T13:16:53.69",
-			allowed_on_road: false,
-			allows_heavy_waste: false,
-		},
-		{
-			id: 17939,
-			size: 16,
-			hire_period_days: 14,
-			transport_cost: null,
-			per_tonne_cost: null,
-			price_before_vat: 496,
-			vat: 20,
-			postcode: "NR32",
-			area: "",
-			forbidden: false,
-			created_at: "2025-04-03T13:51:46.897146",
-			updated_at: "2025-04-07T13:16:53.876",
-			allowed_on_road: false,
-			allows_heavy_waste: false,
-		},
-		{
-			id: 15124,
-			size: 20,
-			hire_period_days: 14,
-			transport_cost: 248,
-			per_tonne_cost: 248,
-			price_before_vat: 992,
-			vat: 20,
-			postcode: "NR32",
-			area: "",
-			forbidden: false,
-			created_at: "2025-04-03T13:51:40.344435",
-			updated_at: "2025-04-07T13:16:52.434",
-			allowed_on_road: false,
-			allows_heavy_waste: true,
-		},
-		{
-			id: 15125,
-			size: 40,
-			hire_period_days: 14,
-			transport_cost: 248,
-			per_tonne_cost: 248,
-			price_before_vat: 992,
-			vat: 20,
-			postcode: "NR32",
-			area: "",
-			forbidden: false,
-			created_at: "2025-04-03T13:51:40.344435",
-			updated_at: "2025-04-07T13:16:52.603",
-			allowed_on_road: false,
-			allows_heavy_waste: false,
-		},
-	];
-	return (
+	const isLoading = useSelector((state: RootState) => state.skips.loading);
+
+	const fetchSkips = async () => {
+		await dispatch(getSkipOptions("NR32"));
+	};
+
+	useEffect(() => {
+		return () => {
+			fetchSkips();
+		};
+	}, []);
+
+	const setSelectedSkip = (id: number) => {
+		dispatch({ type: "skips/selectSkip", payload: id });
+	};
+
+	return isLoading === "pending" ? (
+		<div className='flex flex-col  h-full'>
+			<LoadinSkeletonComponent />
+			<LoadinSkeletonComponent />
+			<LoadinSkeletonComponent />
+			<LoadinSkeletonComponent />
+		</div>
+	) : (
 		<div className='space-y-4'>
 			{skipOptions.length === 0 ? (
 				<Card className='bg-gray-800/50 border border-gray-700'>
@@ -194,11 +53,11 @@ export default function ProductListComponent() {
 					</CardContent>
 				</Card>
 			) : (
-				skipOptions.map((skip) => (
+				skipOptions.map((skip: SkipOption) => (
 					<Card
 						key={skip.id}
 						className={`group cursor-pointer transition-all duration-300 hover:scale-[1.02] ${
-							selectedSkip === skip.id
+							selectedSkip.id === skip.id
 								? "bg-gradient-to-r from-blue-900/50 to-blue-800/30 border-2 border-blue-500 shadow-xl shadow-blue-500/20"
 								: "bg-gray-800/50 border border-gray-700 hover:border-gray-600 hover:bg-gray-800/70"
 						}`}
@@ -209,7 +68,7 @@ export default function ProductListComponent() {
 								<div className='relative flex-shrink-0'>
 									<div className='w-32 h-24 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg overflow-hidden shadow-lg'>
 										<img
-											src={skip.image || "/placeholder.svg"}
+											src={skip.image || "/placeholder.webp"}
 											alt={skip.size + " Yard Skip"}
 											loading='lazy'
 											width={128}
@@ -272,7 +131,7 @@ export default function ProductListComponent() {
 
 								{/* Selection Indicator */}
 								<div className='flex-shrink-0'>
-									{selectedSkip === skip.id ? (
+									{selectedSkip.id === skip.id ? (
 										<div className='w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center'>
 											<Check className='w-4 h-4 text-white' />
 										</div>
