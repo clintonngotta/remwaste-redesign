@@ -1,54 +1,58 @@
-# React + TypeScript + Vite
+# RemWaste Redesign
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React + Redux Toolkit web application for skip hire selection and checkout.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Skip Selection:** Browse and select skip sizes with real-time pricing.
+- **Step Header:** Visual progress bar for the multi-step order process.
+- **Redux Toolkit:** State management for skip options and selection.
+- **API Integration:** Fetches skip options from a remote API.
+- **Responsive UI:** Built with Tailwind CSS and Lucide icons.
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+src/
+  components/
+    product-list-component.tsx   # Skip selection UI, fetches skips from API
+    step-header-component.tsx    # Progress header for checkout steps
+    products-loadin-skeletom.tsx # Loading skeleton for skip list
+  store/
+    reducers.ts                  # Redux slice for skips (fetch, select)
+    store.ts                     # Redux store setup (combineReducers, etc.)
+  ...
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech STack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Vite:** Lightning-fast build tool and dev server.
+- **React:** Component-based UI library.
+- **Tailwind CSS v4:** Utility-first CSS framework for rapid UI development.
+- **shadcn/ui:** Accessible, customizable React component library.
+- **Redux Toolkit:** Simplified state management for React and data fetching.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## How It Works
+
+- On load, `ProductListComponent` dispatches `getSkipOptions` to fetch skips for a postcode.
+- Skip options are displayed as cards; clicking a card selects it.
+- `StepHeaderComponent` shows the current step in the order process.
+- Redux state (`skips`) holds skip options, loading state, and the selected skip.
+
+## API
+
+- Fetches skip options from:  
+  `https://app.wewantwaste.co.uk/api/skips/by-location?postcode=NR32&area=Lowestoft`
+
+## Development
+
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+2. **Run locally:**
+   ```sh
+   npm run dev
+   ```
+3. **Deploy:**  
+   The app is ready for deployment on Vercel [](https://remwaste-redesign.vercel.app/).
