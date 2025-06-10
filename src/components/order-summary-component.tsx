@@ -1,24 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import type { RootState } from "@/store/store";
 import { Check } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function OrderSummaryComponent() {
-	const selectedSkipData = {
-		id: 17933,
-		size: 4,
-		hire_period_days: 14,
-		transport_cost: null,
-		per_tonne_cost: null,
-		price_before_vat: 278,
-		vat: 20,
-		postcode: "NR32",
-		area: "",
-		forbidden: false,
-		created_at: "2025-04-03T13:51:46.897146",
-		updated_at: "2025-04-07T13:16:52.813",
-		allowed_on_road: true,
-		allows_heavy_waste: true,
-	};
+	const selectedSkipData = useSelector(
+		(state: RootState) => state.skips.selectedSkip
+	);
 
 	return (
 		<div className='sticky top-32'>
@@ -28,12 +17,22 @@ export default function OrderSummaryComponent() {
 						Order Summary
 					</h3>
 
-					{selectedSkipData && (
+					{selectedSkipData.id ? (
 						<div className='space-y-4'>
 							{/* Selected Skip Preview */}
 							<div className='bg-gray-900/50 rounded-lg p-4'>
 								<div className='flex items-center space-x-3 mb-3'>
-									<div className='w-12 h-9 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded'></div>
+									<div className='w-12 h-9 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg overflow-hidden shadow-lg'>
+										<img
+											src={selectedSkipData.image || "/placeholder.webp"}
+											alt={selectedSkipData.size + " Yard Skip"}
+											loading='lazy'
+											width={128}
+											height={96}
+											className='w-full h-full object-cover'
+										/>
+									</div>
+
 									<div>
 										<div className='flex flex-row font-semibold text-blue-600'>
 											<span>{selectedSkipData.size} Skip Yard</span>
@@ -102,7 +101,12 @@ export default function OrderSummaryComponent() {
 								</div>
 							</div>
 						</div>
+					) : (
+						<p className='text-white'>
+							Please select a skip to see the order summary.
+						</p>
 					)}
+					<Separator className='bg-gray-700 my-4' />
 				</CardContent>
 			</Card>
 		</div>
