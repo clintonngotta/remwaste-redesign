@@ -26,9 +26,7 @@ export default function ProductListComponent() {
 	};
 
 	useEffect(() => {
-		return () => {
-			fetchSkips();
-		};
+		fetchSkips();
 	}, []);
 
 	const setSelectedSkip = (id: number) => {
