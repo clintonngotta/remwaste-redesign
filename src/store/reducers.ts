@@ -3,7 +3,15 @@ import {
 	createSlice,
 	type PayloadAction,
 } from "@reduxjs/toolkit";
-
+import type { LucideIcon } from "lucide-react";
+import {
+	MapPin,
+	Trash2,
+	Truck,
+	Shield,
+	Calendar,
+	CreditCard,
+} from "lucide-react";
 export interface SkipOption {
 	id: number;
 	size: number;
@@ -22,12 +30,22 @@ export interface SkipOption {
 	image?: string;
 }
 
+export interface SkipStep {
+	icon: LucideIcon;
+	label: string;
+	active?: boolean;
+	completed?: boolean;
+}
 interface SkipState {
 	loading: "idle" | "pending" | "succeeded" | "failed";
 	error: string | null;
 	skipOptions: SkipOption[];
 	selectedSkip: SkipOption;
 	selectedSkipId?: number;
+	steps: SkipStep[];
+	selectedStep: string;
+	nextStep: string;
+	previousStep: string;
 }
 const initialState: SkipState = {
 	loading: "idle",
@@ -49,7 +67,17 @@ const initialState: SkipState = {
 		allowed_on_road: false,
 		allows_heavy_waste: false,
 	},
-
+	steps: [
+		{ icon: MapPin, label: "Location", completed: true },
+		{ icon: Trash2, label: "Waste Type", completed: true },
+		{ icon: Truck, label: "Skip Size", active: true },
+		{ icon: Shield, label: "Permits", completed: false },
+		{ icon: Calendar, label: "Schedule", completed: false },
+		{ icon: CreditCard, label: "Payment", completed: false },
+	],
+	selectedStep: "Skip Size",
+	nextStep: "Permits",
+	previousStep: "Waste Type",
 	selectedSkipId: 0,
 };
 
@@ -83,6 +111,41 @@ const skipSlice = createSlice({
 				state.selectedSkip = {} as SkipOption;
 				state.selectedSkipId = undefined;
 			}
+		},
+
+		nextStep: (state: SkipState) => {
+			const currentStepIndex = state.steps.findIndex((step) => step.active);
+
+			if (currentStepIndex >= 0 && currentStepIndex < state.steps.length - 1) {
+				state.steps = state.steps.map((step, index) => {
+					if (index === currentStepIndex) {
+						return { ...step, active: false, completed: true };
+					} else if (index === currentStepIndex + 1) {
+						return { ...step, active: true };
+					}
+					return step;
+				});
+			}
+			state.previousStep = state.steps[currentStepIndex]?.label || "";
+			state.nextStep = state.steps[currentStepIndex + 2]?.label || "";
+			state.selectedStep = state.steps[currentStepIndex + 1]?.label || "";
+		},
+		previousStep: (state: SkipState) => {
+			const currentStepIndex = state.steps.findIndex((step) => step.active);
+
+			if (currentStepIndex > 0) {
+				state.steps = state.steps.map((step, index) => {
+					if (index === currentStepIndex) {
+						return { ...step, active: false };
+					} else if (index === currentStepIndex - 1) {
+						return { ...step, active: true, completed: true };
+					}
+					return step;
+				});
+			}
+			state.selectedStep = state.steps[currentStepIndex - 1]?.label || "";
+			state.nextStep = state.steps[currentStepIndex]?.label || "";
+			state.previousStep = state.steps[currentStepIndex - 2]?.label || "";
 		},
 	},
 	extraReducers: (builder) => {

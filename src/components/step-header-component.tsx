@@ -1,28 +1,14 @@
-import {
-	MapPin,
-	Trash2,
-	Truck,
-	Shield,
-	Calendar,
-	CreditCard,
-	Check,
-} from "lucide-react";
+import type { RootState } from "@/store/store";
+import { Check } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function StepHeaderComponent() {
-	const steps = [
-		{ icon: MapPin, label: "Location", completed: true },
-		{ icon: Trash2, label: "Waste Type", completed: true },
-		{ icon: Truck, label: "Skip Size", active: true },
-		{ icon: Shield, label: "Permits", completed: false },
-		{ icon: Calendar, label: "Schedule", completed: false },
-		{ icon: CreditCard, label: "Payment", completed: false },
-	];
-
+	const steps = useSelector((state: RootState) => state.skips.steps);
 	return (
 		<div className='border-b border-gray-700/50 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-10'>
-			<div className='min-w-full px-6 py-6'>
-				<div className='flex items-center justify-center mb-6'>
-					<div className='flex items-center space-x-2'>
+			<div className='max-w-7xl mx-auto px-6 py-6'>
+				<div className='overflow-x-auto pb-2 -mx-6 px-6'>
+					<div className='flex items-center justify-start md:justify-center min-w-max'>
 						{steps.map((step, index) => {
 							const Icon = step.icon;
 							return (
