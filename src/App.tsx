@@ -1,4 +1,5 @@
 import "./App.css";
+import FooterComponent from "./components/footer-component";
 import OrderSummaryComponent from "./components/order-summary-component";
 import ProductListComponent from "./components/product-list-component";
 import StepHeaderComponent from "./components/step-header-component";
@@ -19,6 +20,7 @@ function App() {
 					</div>
 				</div>
 			</div>
+			<FooterComponent />
 		</div>
 	);
 }
