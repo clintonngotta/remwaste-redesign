@@ -1,4 +1,5 @@
 import "./App.css";
+import OrderSummaryComponent from "./components/order-summary-component";
 import ProductListComponent from "./components/product-list-component";
 import StepHeaderComponent from "./components/step-header-component";
 
@@ -13,7 +14,9 @@ function App() {
 						<ProductListComponent />
 					</div>
 					{/* order summary - right */}
-					<div className='lg:col-span-1'></div>
+					<div className='lg:col-span-1'>
+						<OrderSummaryComponent />
+					</div>
 				</div>
 			</div>
 		</div>
