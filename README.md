@@ -42,8 +42,7 @@ src/
 ## API
 
 - Fetches skip options from:  
-  `https://app.wewantwaste.co.uk/api/skips/by-location?postcode=NR32&area=Lowestoft`
-
+  [https://app.wewantwaste.co.uk/api/skips/by-location?postcode=NR32&area=Lowestoft](https://app.wewantwaste.co.uk/api/skips/by-location?postcode=NR32&area=Lowestoft)
 ## Development
 
 1. **Install dependencies:**
@@ -55,4 +54,4 @@ src/
    npm run dev
    ```
 3. **Deploy:**  
-   The app is ready for deployment on Vercel [](https://remwaste-redesign.vercel.app/).
+   The app is ready for deployment on  [Vercel](https://remwaste-redesign.vercel.app/).
